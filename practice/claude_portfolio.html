@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Product Manager</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --accent: #FFDE4F;
+    --dark: #111111;
+    --gray: #555555;
+    --light-gray: #f5f5f5;
+    --border: #e8e8e8;
+    --white: #ffffff;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--dark); background: var(--white); line-height: 1.6; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px); z-index: 100;
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px; height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+  .nav-logo span { background: var(--accent); padding: 2px 6px; border-radius: 4px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 13px; color: var(--gray); text-decoration: none; letter-spacing: 0.3px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--dark); }
+
+  /* SECTIONS */
+  section { padding: 96px 0; }
+  .container { max-width: 840px; margin: 0 auto; padding: 0 32px; }
+
+  /* HERO */
+  #hero { padding: 160px 0 96px; }
+  .hero-tag {
+    display: inline-block; background: var(--accent); color: var(--dark);
+    font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 4px; margin-bottom: 24px;
+  }
+  .hero-name { font-size: clamp(42px, 7vw, 72px); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 20px; }
+  .hero-name em { font-style: normal; position: relative; display: inline-block; }
+  .hero-name em::after {
+    content: ''; position: absolute; bottom: 4px; left: 0; width: 100%; height: 10px;
+    background: var(--accent); z-index: -1; border-radius: 2px;
+  }
+  .hero-desc { font-size: 17px; color: var(--gray); max-width: 480px; margin-bottom: 40px; line-height: 1.7; }
+  .hero-btns { display: flex; gap: 12px; }
+  .btn-primary {
+    background: var(--dark); color: var(--white); padding: 13px 28px;
+    border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: #333; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent; color: var(--dark); padding: 13px 28px;
+    border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;
+    border: 1.5px solid var(--dark); transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: var(--accent); border-color: var(--accent); }
+
+  /* DIVIDER */
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 48px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ABOUT */
+  #about { background: var(--light-gray); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .about-text h2 { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 16px; }
+  .about-text p { color: var(--gray); font-size: 15px; line-height: 1.75; margin-bottom: 12px; }
+  .about-stats { display: flex; flex-direction: column; gap: 20px; }
+  .stat-item { border-left: 3px solid var(--accent); padding-left: 16px; }
+  .stat-num { font-size: 32px; font-weight: 800; letter-spacing: -1px; }
+  .stat-desc { font-size: 13px; color: var(--gray); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .skill-card {
+    border: 1.5px solid var(--border); border-radius: 12px; padding: 24px 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .skill-icon { font-size: 24px; margin-bottom: 12px; }
+  .skill-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .skill-card p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+  /* PROJECTS */
+  #projects { background: var(--light-gray); }
+  .projects-list { display: flex; flex-direction: column; gap: 20px; }
+  .project-card {
+    background: var(--white); border-radius: 16px; padding: 32px;
+    border: 1.5px solid var(--border); transition: border-color 0.2s, box-shadow 0.2s;
+    display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start;
+  }
+  .project-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .project-tag {
+    display: inline-block; background: var(--accent); color: var(--dark);
+    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 4px; margin-bottom: 12px;
+  }
+  .project-card h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 8px; }
+  .project-card p { font-size: 14px; color: var(--gray); line-height: 1.7; margin-bottom: 16px; }
+  .project-metrics { display: flex; gap: 20px; }
+  .metric { text-align: center; }
+  .metric-num { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+  .metric-label { font-size: 11px; color: var(--gray); }
+  .tag-list { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag { font-size: 12px; color: var(--gray); background: var(--light-gray); padding: 4px 10px; border-radius: 20px; }
+
+  /* EXPERIENCE */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item { display: grid; grid-template-columns: 160px 1fr; gap: 32px; padding-bottom: 40px; position: relative; }
+  .timeline-item:not(:last-child)::before {
+    content: ''; position: absolute; left: 188px; top: 8px; bottom: 0; width: 1px; background: var(--border);
+  }
+  .timeline-item:not(:last-child)::after {
+    content: ''; position: absolute; left: 184px; top: 6px; width: 9px; height: 9px;
+    background: var(--accent); border-radius: 50%; border: 2px solid var(--white); box-shadow: 0 0 0 1px var(--border);
+  }
+  .timeline-date { font-size: 12px; color: var(--gray); padding-top: 2px; text-align: right; }
+  .timeline-content h3 { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .timeline-content .company { font-size: 13px; color: var(--gray); margin-bottom: 10px; font-weight: 500; }
+  .timeline-content p { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  /* CONTACT */
+  #contact { background: var(--dark); color: var(--white); }
+  #contact .section-label { color: #888; }
+  #contact .section-label::after { background: #333; }
+  .contact-inner { text-align: center; }
+  .contact-inner h2 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+  .contact-inner p { color: #888; font-size: 15px; margin-bottom: 36px; }
+  .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: 8px;
+    background: #1e1e1e; color: var(--white); padding: 12px 24px;
+    border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none;
+    border: 1px solid #333; transition: all 0.2s;
+  }
+  .contact-link:hover { background: var(--accent); color: var(--dark); border-color: var(--accent); }
+
+  /* SCROLL ANIMATION */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .project-card { grid-template-columns: 1fr; }
+    .timeline-item { grid-template-columns: 1fr; gap: 4px; }
+    .timeline-item::before, .timeline-item::after { display: none; }
+    .timeline-date { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>KM</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-tag">Product Manager</div>
+    <h1 class="hero-name">김민준<br><em>Product</em> Manager</h1>
+    <p class="hero-desc">사용자 문제를 데이터로 정의하고, 팀과 함께 임팩트 있는 제품을 만드는 PM입니다. 비즈니스 성장과 사용자 경험 사이의 균형을 찾습니다.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">프로젝트 보기</a>
+      <a href="#contact" class="btn-secondary">연락하기</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">About Me</div>
+    <div class="about-grid fade-in">
+      <div class="about-text">
+        <h2>제품으로 문제를<br>해결합니다</h2>
+        <p>5년간 B2C/B2B SaaS 제품을 기획하며 MAU 성장과 수익화를 동시에 경험했습니다.</p>
+        <p>개발팀, 디자인팀, 마케팅팀과의 협업을 통해 0→1 제품 출시부터 스케일업까지 전 과정을 리드한 경험이 있습니다.</p>
+        <p>데이터 기반 의사결정을 중시하며, SQL과 A/B 테스트를 직접 다룹니다.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-item">
+          <div class="stat-num">5년+</div>
+          <div class="stat-desc">PM 경력</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">12개</div>
+          <div class="stat-desc">출시 피처 / 프로덕트</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3배</div>
+          <div class="stat-desc">MAU 성장 달성</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">Skills</div>
+    <div class="skills-grid fade-in">
+      <div class="skill-card">
+        <div class="skill-icon">📊</div>
+        <h3>데이터 분석</h3>
+        <p>SQL, Amplitude, Mixpanel을 활용한 지표 설계 및 코호트 분석</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗺️</div>
+        <h3>로드맵 기획</h3>
+        <p>비즈니스 목표와 사용자 니즈를 연결하는 분기별 로드맵 수립</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🧪</div>
+        <h3>A/B 테스트</h3>
+        <p>가설 설계부터 통계적 유의성 검증까지 실험 전 과정 운영</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🤝</div>
+        <h3>스테이크홀더 관리</h3>
+        <p>C-레벨 보고 및 개발/디자인/마케팅 팀 간 정렬 리딩</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔍</div>
+        <h3>사용자 리서치</h3>
+        <p>심층 인터뷰, 설문, 사용성 테스트를 통한 인사이트 도출</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⚙️</div>
+        <h3>애자일 운영</h3>
+        <p>Scrum 마스터 경험, Jira/Notion 기반 스프린트 관리</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">Projects</div>
+    <div class="projects-list">
+
+      <div class="project-card fade-in">
+        <div>
+          <span class="project-tag">B2C · Mobile</span>
+          <h3>온보딩 플로우 개선 프로젝트</h3>
+          <p>신규 유저 이탈률이 높다는 데이터를 기반으로 온보딩 단계를 5단계에서 3단계로 줄이고, 개인화 추천 로직을 도입했습니다. 사용자 인터뷰 20건, A/B 테스트 3회를 통해 최적안을 선정했습니다.</p>
+          <div class="tag-list">
+            <span class="tag">Amplitude</span>
+            <span class="tag">A/B 테스트</span>
+            <span class="tag">사용자 인터뷰</span>
+            <span class="tag">개인화</span>
+          </div>
+        </div>
+        <div class="project-metrics">
+          <div class="metric">
+            <div class="metric-num">+34%</div>
+            <div class="metric-label">Day-7 리텐션</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div>
+          <span class="project-tag">B2B · SaaS</span>
+          <h3>팀 협업 대시보드 0→1 출시</h3>
+          <p>기업 고객 인터뷰를 통해 팀 단위 업무 현황 파악에 대한 Pain Point를 발견, 실시간 대시보드 피처를 기획하고 6주 만에 베타 출시했습니다. 출시 후 엔터프라이즈 계약 전환율이 크게 상승했습니다.</p>
+          <div class="tag-list">
+            <span class="tag">0→1</span>
+            <span class="tag">B2B</span>
+            <span class="tag">스프린트</span>
+            <span class="tag">SQL</span>
+          </div>
+        </div>
+        <div class="project-metrics">
+          <div class="metric">
+            <div class="metric-num">+52%</div>
+            <div class="metric-label">엔터프라이즈 전환율</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div>
+          <span class="project-tag">Growth</span>
+          <h3>결제 전환 퍼널 최적화</h3>
+          <p>결제 이탈 구간 분석으로 주요 드롭오프 포인트를 3개 발견, UI 개선 및 가격 플랜 재구성을 통해 유료 전환율을 높였습니다. 분기 내 실험 5회를 운영하며 최종안을 확정했습니다.</p>
+          <div class="tag-list">
+            <span class="tag">Funnel 분석</span>
+            <span class="tag">가격 전략</span>
+            <span class="tag">Mixpanel</span>
+          </div>
+        </div>
+        <div class="project-metrics">
+          <div class="metric">
+            <div class="metric-num">+21%</div>
+            <div class="metric-label">유료 전환율</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">Experience</div>
+    <div class="timeline fade-in">
+      <div class="timeline-item">
+        <div class="timeline-date">2022 — 현재</div>
+        <div class="timeline-content">
+          <h3>Senior Product Manager</h3>
+          <div class="company">테크스타트업 A · 서울</div>
+          <p>모바일 앱 핵심 피처 기획 및 성장 지표 오너십. 분기 OKR 수립 및 스쿼드 리드. MAU 15만 → 45만 성장 기여.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2020 — 2022</div>
+        <div class="timeline-content">
+          <h3>Product Manager</h3>
+          <div class="company">SaaS 기업 B · 서울</div>
+          <p>B2B 협업 툴 신규 피처 기획 및 출시. 고객사 인터뷰 리드, 개발팀 스프린트 관리. 엔터프라이즈 고객 NPS +18점 개선.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2018 — 2020</div>
+        <div class="timeline-content">
+          <h3>서비스 기획자</h3>
+          <div class="company">이커머스 C · 서울</div>
+          <p>검색/추천 피처 기획 및 UX 개선. 데이터 팀과 협업하여 개인화 추천 알고리즘 도입. 클릭률 +27% 달성.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Contact</div>
+    <div class="contact-inner fade-in">
+      <h2>함께 일해요 👋</h2>
+      <p>새로운 기회나 협업 제안은 언제든지 환영합니다.</p>
+      <div class="contact-links">
+        <a href="mailto:hello@example.com" class="contact-link">✉️ hello@example.com</a>
+        <a href="#" class="contact-link">💼 LinkedIn</a>
+        <a href="#" class="contact-link">📄 이력서 다운로드</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scroll animation
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
